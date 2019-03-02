@@ -1,0 +1,5 @@
+* Mount (for typescript)
+- [ ] module registration
+- [ ] module modification vs other things
+- [ ] inferring the var names automatically
+- [ ] swapping out modules for testing
