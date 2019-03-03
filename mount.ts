@@ -1,5 +1,8 @@
+type Status = "started" | "stopped" | "error";
+
 interface State<S> {
   name: string;
+  status: Status;
   start: () => S;
   stop: () => void;
   order: number;
@@ -32,6 +35,7 @@ export function defstate<S>(
         await stop(derefValue);
       }
     },
+    status: "stopped" as Status,
     order: nextStateSeq(),
     get: () => derefValue
   };
@@ -50,15 +54,19 @@ export async function start() {
     console.log("Loading hooks:", registeredStates);
   }
 
-  for (const { name, start, order } of orderedStates()) {
+  for (const state of orderedStates()) {
+    const { name, start, order } = state;
     console.log(`<< [mount] ${order} - Starting ${name}`);
     await start();
+    state.status = "started";
   }
 }
 
 export async function stop() {
-  for (const { name, stop, order } of orderedStates().reverse()) {
+  for (const state of orderedStates().reverse()) {
+    const { name, stop, order } = state;
     console.log(`>> [mount] ${order} - Stopping ${name}`);
     await stop();
+    state.status = "stopped";
   }
 }
