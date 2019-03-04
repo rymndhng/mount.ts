@@ -1,12 +1,10 @@
 import { defstate, start, stop } from "mount-ts";
-import { db } from "./modules/db";
 import { http } from "./modules/http";
-import { worker } from "./modules/worker";
 
-export var app = defstate("app", () => {
-  db; // force it to load ...
+export var app = defstate("app", async () => {
+  // explicitly call module variable to force module to load load modules (because imports are by default lazy)
+  // TODO: is there a way to eagerly load an import, to avoid doubly calling
   http;
-  worker;
 });
 
 (async () => {
