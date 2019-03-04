@@ -1,4 +1,4 @@
-import { defstate } from "../mount";
+import { defstate } from "mount-ts";
 import { config } from "./config";
 import { QueryFunction } from "mysql";
 import * as mysql from "mysql";
@@ -33,18 +33,18 @@ export function queryAsPromise<T>(
   return p;
 }
 
-export async function query<T> (
+export async function query<T>(
   db: DB,
   queryOptions: string | mysql.QueryOptions
 ): Promise<T[]> {
-  return queryAsPromise<T>(db, queryOptions).then(({result}) => result);
+  return queryAsPromise<T>(db, queryOptions).then(({ result }) => result);
 }
 
-export async function queryOne<T> (
+export async function queryOne<T>(
   db: DB,
   queryOptions: string | mysql.QueryOptions
 ): Promise<T> {
-  return queryAsPromise<T>(db, queryOptions).then(({ result}) => result[0]);
+  return queryAsPromise<T>(db, queryOptions).then(({ result }) => result[0]);
 }
 
 // -- This is application code  ------------------------------------------------
@@ -53,7 +53,7 @@ export interface Count {
 }
 
 export const getAccounts = async (db: DB) =>
-    queryOne<Count>(db, "SELECT COUNT(*) as total FROM accounts")
+  queryOne<Count>(db, "SELECT COUNT(*) as total FROM accounts");
 
 export const db = defstate("db", () => {
   return mysql.createPool({

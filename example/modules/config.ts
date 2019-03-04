@@ -1,4 +1,4 @@
-import { defstate } from "../mount";
+import { defstate } from "mount-ts";
 
 export const config = defstate<any>("config", () => {
   return {

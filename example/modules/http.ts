@@ -1,4 +1,4 @@
-import { defstate } from "../mount";
+import { defstate } from "mount-ts";
 import * as db from "./db";
 import { config } from "./config";
 
