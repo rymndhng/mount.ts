@@ -1,6 +1,6 @@
 {
   "name": "mount-ts",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "Just-enough glue for writing stateful modules.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/rymndhng/mount.ts.git"
   },
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "author": "rymndhng",
   "license": "MIT",
   "devDependencies": {
