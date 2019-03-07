@@ -51,22 +51,26 @@ const orderedStates = () => {
 
 export async function start() {
   if (process.env.MOUNT_DEBUG) {
-    console.log("Loading hooks:", registeredStates);
+    console.debug("Loading hooks:", registeredStates);
   }
 
   for (const state of orderedStates()) {
     const { name, start, order } = state;
-    console.log(`<< [mount] ${order} - Starting ${name}`);
-    await start();
-    state.status = "started";
+    console.debug(`<< [mount] ${order} - Starting ${name}`);
+    if (state.status !== "started") {
+      await start();
+      state.status = "started";
+    }
   }
 }
 
 export async function stop() {
   for (const state of orderedStates().reverse()) {
     const { name, stop, order } = state;
-    console.log(`>> [mount] ${order} - Stopping ${name}`);
-    await stop();
-    state.status = "stopped";
+    console.debug(`>> [mount] ${order} - Stopping ${name}`);
+    if (state.status !== "stopped") {
+      await stop();
+      state.status = "stopped";
+    }
   }
 }

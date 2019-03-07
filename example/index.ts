@@ -9,7 +9,6 @@ export var app = defstate("app", async () => {
 
 (async () => {
   await start();
-  console.log("System started");
 })();
 
 process.on("SIGTERM", async () => {

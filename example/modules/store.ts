@@ -66,7 +66,7 @@ export function reapStore(store: Store, timeToLive: number) {
   }
 }
 
-export var store = defstate<Store>("store", () => {
+export const store = defstate<Store>("store", () => {
   return {};
 });
 
