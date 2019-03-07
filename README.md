@@ -1,6 +1,14 @@
 # mount.ts
 
+[![npm version](https://badge.fury.io/js/mount-ts.svg)](https://badge.fury.io/js/mount-ts)
+
 "Just-enough" opinionated glue for wiring stateful modules in TypeScript. Heavily inspired by [tolitus/mount](https://github.com/tolitius/mount).
+
+# Usage
+
+```
+npm install mount-ts
+```
 
 # Why
 Real world applications need to manage lifecycle of stateful objects, such as
