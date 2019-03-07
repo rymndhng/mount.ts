@@ -2,12 +2,21 @@
   "name": "mount-ts",
   "version": "1.0.0",
   "description": "Just-enough glue for writing stateful modules.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "homepage": "https://github.com/rymndhng/mount.ts",
-  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "npm run build",
+    "postversion": "git push && git push --tags"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rymndhng/mount.ts.git"
+  },
+  "files": ["dist/**/*"],
+  "author": "rymndhng",
   "license": "MIT",
   "devDependencies": {
     "@types/micro": "^7.3.3",
