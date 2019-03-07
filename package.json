@@ -1,7 +1,8 @@
 {
   "name": "mount-ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Just-enough glue for writing stateful modules.",
+  "homepage": "https://github.com/rymndhng/mount.ts",
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
