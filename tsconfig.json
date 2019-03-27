@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "pretty": true,
-    "target": "es2017",
-    // "noImplicitAny": true,
-    "outDir": "./dist",
-    "sourceMap": true,
-    "declaration": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "declaration": true,
+    "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "pretty": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "es2017"
   },
   "include": ["src"]
 }
