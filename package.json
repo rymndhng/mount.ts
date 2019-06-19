@@ -21,11 +21,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/micro": "^7.3.3",
-    "@types/mysql": "^2.15.5",
-    "@types/node": "^11.10.4",
-    "jest": "^24.1.0",
-    "prettier": "^1.16.4",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3333"
+    "@types/mysql": "^2.15.6",
+    "@types/node": "^12.0.8",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
   }
 }
