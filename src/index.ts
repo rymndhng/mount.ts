@@ -6,6 +6,7 @@ interface State<S> {
   start: () => S;
   stop: () => void;
   order: number;
+  get: () => S;
 }
 
 type Deref<S> = () => S;
@@ -19,11 +20,31 @@ const nextStateSeq = () => {
   return stateSeq;
 };
 
+// -- Public API  --------------------------------------------------------------
+
+/**
+ * Create a new state.
+ *
+ * States are started/stopped invoking this modules [[start()]] and [[stop(0)]]
+ * functions.
+ *
+ * ``` typescript
+ * const state = defstate("my.state", () => {foo: "bar"})
+ * ````
+ *
+ * @param start   A function to create a new state.
+ * @param stop    A function to shutdown the state.
+ * @returns An instance of [[Deref]]
+ */
 export function defstate<S>(
   name: string,
   start: () => S,
   stop?: (s: S) => void
 ): Deref<S> {
+  if (registeredStates.hasOwnProperty(name)) {
+    console.warn(`warning! replacing an existing defstate`, { name });
+  }
+
   var derefValue: S;
   const state = {
     name,
@@ -39,8 +60,22 @@ export function defstate<S>(
     order: nextStateSeq(),
     get: () => derefValue
   };
+
   registeredStates[name] = state;
   return state.get;
+}
+
+/**
+ * Gets a started state.
+ *
+ * ```typescript
+ * const db = getState<Config>("db");
+ * ```
+ *
+ * Precondition: the states must be already started via [[start()]].
+ */
+export function getState<S>(name: string): S {
+  return registeredStates[name].get();
 }
 
 const orderedStates = () => {
