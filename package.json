@@ -1,6 +1,6 @@
 {
   "name": "mount-ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Just-enough glue for writing stateful modules.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
