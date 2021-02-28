@@ -21,11 +21,14 @@ connection pools, http servers, background workers all these sorts of things.
 Creating state is easy. You provide a name, and a function of 0-arguments that constructors a connection.
 
 ``` typescript
-import { defstate } from 'mount-ts'
+import { defstate, enableDebugLogs, start } from 'mount-ts'
 
 export const conn = defstate(
   "conn",
   () => createConnection())
+  
+enableDebugLogs(); // enable logs
+start(); // This executes the start hook of all defstate
 ```
 
 In the case where the `defstate` needs clean up, add an additional argument that takes the state as a parameter.
@@ -47,6 +50,25 @@ import { conn } from "./conn"
 conn() // Invoke as function to dereference
 ```
 
+## Listening to State Changes
+
+To listen to lifecycle events, you can register event listeners onto the
+`emitter`.
+
+``` typescript
+import { start, emitter } from 'mount-ts';
+
+emitter.on('start', (s) => console.debug(`<< [mount] ${s.order} - Starting ${s.name}`));
+emitter.on('stop', (s) => console.debug(`>> [mount] ${s.order} - Stopping ${s.name}`));
+
+start();
+// -- example output
+<< [mount] 1 - Starting config
+<< [mount] 2 - Starting store
+<< [mount] 3 - Starting store.reaper
+<< [mount] 4 - Starting http
+<< [mount] 5 - Starting app
+```
 
 ## Dependency Management
 

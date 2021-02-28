@@ -1,5 +1,8 @@
-import { defstate, start, stop } from "mount-ts";
+import { defstate, start, stop, enableDebugLogs } from "mount-ts";
 import { http } from "./modules/http";
+
+// turns on debug logging
+enableDebugLogs();
 
 export var app = defstate("app", async () => {
   // explicitly call module variable to force module to load load modules (because imports are by default lazy)

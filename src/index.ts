@@ -1,3 +1,5 @@
+import { EventEmitter } from "events";
+
 type Status = "started" | "stopped" | "error";
 
 interface State<S> {
@@ -90,8 +92,8 @@ export async function start() {
   }
 
   for (const state of orderedStates()) {
-    const { name, start, order } = state;
-    console.debug(`<< [mount] ${order} - Starting ${name}`);
+    const { start } = state;
+    emitter.emit('start', state);
     if (state.status !== "started") {
       await start();
       state.status = "started";
@@ -101,11 +103,53 @@ export async function start() {
 
 export async function stop() {
   for (const state of orderedStates().reverse()) {
-    const { name, stop, order } = state;
-    console.debug(`>> [mount] ${order} - Stopping ${name}`);
+    const { stop } = state;
+    emitter.emit('stop', state);
     if (state.status !== "stopped") {
       await stop();
       state.status = "stopped";
     }
   }
+}
+
+// -- EventEmitter  ------------------------------------------------------------
+type Events = {
+  'start': (state: State<unknown>) => void,
+  'stop': (state: State<unknown>) => void;
+}
+
+declare interface StateChangeEmitter {
+  on<U extends keyof Events>(event: U, listener: Events[U]): this;
+  emit<U extends keyof Events>(event: U, ...args: Parameters<Events[U]>): boolean;
+  addListener<U extends keyof Events>(event: U, listener: Events[U]): this;
+  prependListener<U extends keyof Events>(event: U, listener: Events[U]): this;
+  prependOnceListener<U extends keyof Events>(event: U, listener: Events[U]): this;
+  removeListener<U extends keyof Events>(event: U, listener: Events[U]): this;
+  removeAllListeners(event?: keyof Events): this;
+  once<U extends keyof Events>(event: U, listener: Events[U]): this;
+  on<U extends keyof Events>(event: U, listener: Events[U]): this;
+  off<U extends keyof Events>(event: U, listener: Events[U]): this;
+  eventNames<U extends keyof Events>(): U[];
+  listenerCount(type: keyof Events): number;
+  listeners<U extends keyof Events>(type: U): Events[U][];
+  rawListeners<U extends keyof Events>(type: U): Events[U][];
+  getMaxListeners(): number;
+  setMaxListeners(n: number): this;
+}
+
+class StateChangeEmitter extends EventEmitter {
+  constructor() {
+    super();
+  }
+}
+
+export const emitter = new StateChangeEmitter();
+
+/**
+ * Enable basic logging to show when states are started.
+ *
+ */
+export const enableDebugLogs = () => {
+  emitter.on('start', (s) => console.debug(`<< [mount] ${s.order} - Starting ${s.name}`));
+  emitter.on('stop', (s) => console.debug(`>> [mount] ${s.order} - Stopping ${s.name}`));
 }
